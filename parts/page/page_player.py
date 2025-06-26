@@ -33,7 +33,7 @@ from siui.components.widgets import (
 from siui.core import GlobalFont, Si, SiColor, SiGlobal
 from siui.gui import SiFont
 
-from parts.components.player_table_manager import PlayerTableManager
+from parts.components.table_manager import PlayerTableManager
 
 
 class MCSPlayerPage(SiPage):

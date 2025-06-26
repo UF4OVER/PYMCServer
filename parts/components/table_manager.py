@@ -2,16 +2,17 @@
 # -------------------------------
 #  @Project : MCServer
 #  @Time    : 2025 - 06-25 21:53
-#  @FileName: player_table_manager.py
+#  @FileName: table_manager.py
 #  @Software: PyCharm 2024.1.6 (Professional Edition)
 #  @System  : Windows 11 23H2
 #  @Author  : 33974
 #  @Contact : 
 #  @Python  : 
 # -------------------------------
+from PyQt5.QtGui import QIcon
 from siui.components import SiLabel, SiPixLabel
 from siui.components.widgets.abstracts.table import ABCSiTabelManager, SiRow
-from siui.core import GlobalFont, Si, SiColor
+from siui.core import GlobalFont, Si, SiColor, SiGlobal
 from siui.gui import SiFont
 from siui.components.button import (
     SiFlatButton,
@@ -117,6 +118,64 @@ class PlayerTableManager(ABCSiTabelManager):
         if col_index in [6, 7, 8]:  # 新增按钮列
             button = SiPushButtonRefactor(self.parent())
             button.resize(24, 24)
+            return button
+
+    def on_header_created(self, header: SiRow):
+        for name in self.parent().column_names:
+            new_label = SiLabel(self.parent())
+            new_label.setFont(SiFont.tokenized(GlobalFont.S_BOLD))
+            new_label.setTextColor(self.parent().getColor(SiColor.TEXT_D))
+            new_label.setText(name)
+            new_label.adjustSize()
+            header.container().addWidget(new_label)
+
+        header.container().arrangeWidgets()
+
+
+class ModTableManager(ABCSiTabelManager):
+    # #0    模组         SiRadioButtonWithAvatar
+    # #1    删除         SiPushButtonRefactor
+    # #2    禁用         SiPushButtonRefactor
+    # #3    定位         SiPushButtonRefactor
+
+    def _value_read_parser(self, row_index, col_index):
+        if col_index == 1:
+            #todo
+            pass
+
+        if col_index in [1, 2, 3]:
+            #todo
+            pass
+
+    def _value_write_parser(self, row_index, col_index, value: list):
+        widget = self.parent().getRowWidget(row_index)[col_index]
+        if col_index == 0:
+            widget.setFont(SiFont.tokenized(GlobalFont.S_BOLD))
+
+            widget.setText(value[0])
+            widget.setDescription(value[1])
+            widget.setIcon(QIcon(value[2]))
+
+    def _widget_creator(self, col_index):
+        if col_index == 0:
+            mod_choose = SiRadioButtonWithAvatar(self.parent())
+            mod_choose.resize(255, 80)
+            return mod_choose
+
+        if col_index == 1:
+            button = SiPushButtonRefactor(self.parent())
+            button.setSvgIcon(SiGlobal.siui.iconpack.get("ic_fluent_delete_filled"))
+            button.resize(30, 30)
+            return button
+        if col_index == 2:
+            button = SiPushButtonRefactor(self.parent())
+            button.setSvgIcon(SiGlobal.siui.iconpack.get("ic_fluent_prohibited_filled"))
+            button.resize(30, 30)
+            return button
+        if col_index == 3:
+            button = SiPushButtonRefactor(self.parent())
+            button.setSvgIcon(SiGlobal.siui.iconpack.get("ic_fluent_folder_open_filled"))
+            button.resize(30, 30)
             return button
     def on_header_created(self, header: SiRow):
         for name in self.parent().column_names:
