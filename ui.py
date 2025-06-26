@@ -15,7 +15,7 @@ from siui.core import SiGlobal
 
 from siui.templates.application.application import SiliconApplication
 from parts.components.dynamic_island import DynamicIsland
-from parts.components.global_left_indow import LayerLeftGlobalDrawer
+from parts.components.global_left_indow import LayerLeftGlobalDrawerJVMArgs
 
 from parts.page.page_home import MCSHomepage
 from parts.page.page_mods import MCSModManagePage
@@ -27,7 +27,7 @@ from parts.page.page_player import MCSPlayerPage
 class MySiliconApp(SiliconApplication):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.layer_left_global_drawer = LayerLeftGlobalDrawer(self)
+        self.layer_left_global_drawer = LayerLeftGlobalDrawerJVMArgs(self)
         self.dynamic_island = DynamicIsland(self)
         self.layerMain().container_title.addWidget(self.dynamic_island)
 
