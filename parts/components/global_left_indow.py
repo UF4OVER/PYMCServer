@@ -1,5 +1,14 @@
-#  Copyright (c) 2025 UF4OVER
-#   All rights reserved.
+# -*- coding: utf-8 -*-
+# -------------------------------
+#  @Project : MCServer
+#  @Time    : 2025 - 06-25 21:53
+#  @FileName: global_left_indow.py
+#  @Software: PyCharm 2024.1.6 (Professional Edition)
+#  @System  : Windows 11 23H2
+#  @Author  : 33974
+#  @Contact :
+#  @Python  :
+# -------------------------------
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QBoxLayout
 from siui.components import SiLabel, SiTitledWidgetGroup, SiCheckBox, SiDenseHContainer

@@ -20,16 +20,6 @@ def show_version_message(window):
                                                             icon=SiGlobal.siui.iconpack.get("ic_fluent_info_regular"))
     )
 
-    window.LayerRightMessageSidebar().send(
-        title="Refactoring in Progress",
-        text="To optimize the project structure, "
-             "we are currently undergoing a refactoring process.\n\n"
-             "We strongly discourage you from using any deprecated components "
-             'other than those displayed on the "Refactored Components" page.',
-        msg_type=4,
-        icon=SiGlobal.siui.iconpack.get("ic_fluent_warning_filled"),
-    )
-
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

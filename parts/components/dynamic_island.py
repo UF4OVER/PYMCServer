@@ -1,5 +1,14 @@
-#  Copyright (c) 2025 UF4OVER
-#   All rights reserved.
+# -*- coding: utf-8 -*-
+# -------------------------------
+#  @Project : MCServer
+#  @Time    : 2025 - 06-25 21:53
+#  @FileName: dynamic_island.py
+#  @Software: PyCharm 2024.1.6 (Professional Edition)
+#  @System  : Windows 11 23H2
+#  @Author  : 33974
+#  @Contact :
+#  @Python  :
+# -------------------------------
 
 from PyQt5.QtCore import QTimer, QRect, Qt, pyqtProperty, QPropertyAnimation, QEasingCurve, QTime
 from PyQt5.QtGui import QFont, QColor, QPalette
