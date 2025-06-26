@@ -15,10 +15,6 @@ from PyQt5.QtCore import QObject, pyqtSignal
 
 
 class SignalBus(QObject):
-    """ Signal bus in Groove Music """
-    appMessageSig = pyqtSignal(object)  # APP 发来消息
-    appErrorSig = pyqtSignal(str)  # APP 发生异常
-    appRestartSig = pyqtSignal()  # APP 需要重启
 
     serverStartSig = pyqtSignal()  # 服务器启动
     serverStopSig = pyqtSignal()  # 服务器停止

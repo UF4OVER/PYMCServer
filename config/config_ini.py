@@ -20,11 +20,6 @@ class SettingsManager:
     def __init__(self, config_path: Path):
         self.config_path = config_path
         self.config = configparser.ConfigParser()
-
-        # 自动创建默认配置文件
-        # if not self.config_path.exists():
-        #     self._generate_default_config()
-
         self.load()
 
     def load(self):
@@ -55,31 +50,10 @@ class SettingsManager:
         with open(self.config_path, 'w', encoding='utf-8') as f:
             self.config.write(f)
 
-    def _generate_default_config(self):
-        """生成默认配置文件"""
-        self.config['version'] = {
-            'version': '1.0.0',
-            'author': 'UF4'
-        }
-
-        self.config['runtime'] = {
-            'java_path': 'C:\\Program Files\\Java\\bin\\java.exe',
-            'jar_path': 'server.jar',
-            'min_memory': '1G',
-            'max_memory': '2G'
-        }
-
-        with open(self.config_path, 'w', encoding='utf-8') as f:
-            self.config.write(f)
-
     # 路径配置（可用于读取资源目录）
     @property
     def base_dir(self) -> Path:
         return Path(__file__).resolve().parent.parent
-
-    @property
-    def music_dir(self) -> Path:
-        return self.base_dir / "music"
 
     @property
     def png_dir(self) -> Path:

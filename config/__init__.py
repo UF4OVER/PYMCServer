@@ -21,3 +21,10 @@ INI_PATH = Path(__file__).resolve().parent / "config.ini"
 Settings = SettingsManager(INI_PATH)
 Sbus = SignalBus()
 Logger = logger
+
+
+ADMIN_NAME = Settings.get("name", "admin_name")
+SERVER_NAME = Settings.get("name", "server_name")
+SERVER_VERSION = Settings.get("name", "server_version")
+SOFTWARE_VERSION = Settings.get("name", "software_version")
+

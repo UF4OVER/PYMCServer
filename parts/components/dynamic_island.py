@@ -10,13 +10,12 @@ from siui.core import Si
 from siui.core import SiColor, SiGlobal
 from siui.gui import SiFont
 
+from config import ADMIN_NAME,SERVER_NAME,SOFTWARE_VERSION,SERVER_VERSION
 
-VERSION = "1"
-L_AUTHOR = "LA"
-H_AUTHOR = "HA"
-M_AUTHOR = "MA"
-
-
+VERSION = SERVER_NAME
+L_AUTHOR = ADMIN_NAME
+H_AUTHOR = SOFTWARE_VERSION
+M_AUTHOR = SERVER_VERSION
 
 class DenseVContainerBG(SiDenseHContainer):
     def __init__(self, *args, **kwargs):
@@ -129,7 +128,7 @@ class DynamicIsland(SiHExpandWidget):
         self.time_label.setAlignment(Qt.AlignCenter)
         self.time_label.resize(70, self.size().height())
         self.time_label.moveTo(350, 0)
-        self.time_label.setText("{F.READ_CONFIG('date', 'time')}")
+        self.time_label.setText(H_AUTHOR)
 
         self.container.setSpacing(0)
         self.container.addPlaceholder(10)

@@ -63,11 +63,11 @@ class MCSModManagePage(SiPage):
             self.mod_table.addColumn("", 54, 40, Qt.AlignLeft | Qt.AlignVCenter)
             self.mod_table.addColumn("", 54, 40, Qt.AlignLeft | Qt.AlignVCenter)
 
-            self.mod_table.addRow(data=[["mod1", "authorA", "v1.0"]])
-            self.mod_table.addRow(data=[["mod2", "authorB", "v2.1"]])
-            self.mod_table.addRow(data=[["mod3", "authorC", "v0.9"]])
-            self.mod_table.addRow(data=[["mod4", "authorD", "beta"]])
-            self.mod_table.addRow(data=[["mod5", "authorE", "alpha"]])
+            self.mod_table.addRow(data=[["mod1", "authorA", "v1.0"], "mod2", "authorB", "v2.1"])
+            self.mod_table.addRow(data=[["mod2", "authorB", "v2.1"],"mod2", "authorB", "v2.1"])
+            self.mod_table.addRow(data=[["mod3", "authorC", "v0.9"],"mod2", "authorB", "v2.1"])
+            self.mod_table.addRow(data=[["mod4", "authorD", "beta"],"mod2", "authorB", "v2.1"])
+            self.mod_table.addRow(data=[["mod5", "authorE", "alpha"],"mod2", "authorB", "v2.1"])
 
             player_table.body().setAdjustWidgetsSize(True)
             player_table.body().addWidget(self.mod_table)
