@@ -9,3 +9,18 @@
 #  @Contact : 
 #  @Python  : 
 # -------------------------------
+from contextlib import contextmanager
+
+from PyQt5.QtWidgets import QWidget
+from siui.components.container import SiTriSectionPanelCard
+
+
+@contextmanager
+def createPanelCard(parent: QWidget, title: str) -> SiTriSectionPanelCard:
+    card = SiTriSectionPanelCard(parent)
+    card.setTitle(title)
+    try:
+        yield card
+    finally:
+        card.adjustSize()
+        parent.addWidget(card)

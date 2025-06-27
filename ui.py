@@ -22,6 +22,7 @@ from parts.page.page_mods import MCSModManagePage
 
 from config import Settings as ST
 from parts.page.page_player import MCSPlayerPage
+from parts.page.page_setting import MCSettingPage
 
 
 class MySiliconApp(SiliconApplication):
@@ -48,6 +49,9 @@ class MySiliconApp(SiliconApplication):
         self.layerMain().addPage(MCSPlayerPage(self),
                                  icon=SiGlobal.siui.iconpack.get("ic_fluent_people_edit_filled"),
                                  hint="玩家", side="top")
+        self.layerMain().addPage(MCSettingPage(self),
+                                 icon=SiGlobal.siui.iconpack.get("ic_fluent_settings_filled"),
+                                 hint="设置", side="bottom")
 
         self.layerMain().setPage(0)
 
