@@ -13,11 +13,11 @@ import os
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QBoxLayout
-from siui.components import SiPixLabel
+from siui.components import SiPixLabel, SiOptionCardPlane
 from siui.components.option_card import SiOptionCardLinear
 from siui.components.page import SiPage
 from siui.components.titled_widget_group import SiTitledWidgetGroup
-from siui.components.widgets.navigation_bar import SiNavigationBarV
+from siui.components.widgets.navigation_bar import SiNavigationBarV, SiNavigationBarH
 
 from siui.core import GlobalFont, Si, SiColor, SiGlobal
 from siui.gui import SiFont
@@ -47,22 +47,22 @@ class MCSettingPage(SiPage):
         SiGlobal.siui.reloadStyleSheetRecursively(self)
 
         with self.titled_widgets_group as group:
-            group.addTitle("定时重启")
+            self.navigation_bar_h = SiOptionCardPlane(self)
+            self.navigation_bar_h.setTitle("重启任务")
 
-            with createPanelCard(group, "区间指示器") as card:
-                # 横向导航栏 SiNavigationBarV
-                navigation_bar_v = SiNavigationBarV(card)
-                # 计时重启
-                navigation_bar_v.addItem("计时重启")
-                # 定时重启
-                navigation_bar_v.addItem("定时重启")
+            self.restart_navigation_bar_h = SiNavigationBarH(self)
 
-                navigation_bar_v.setCurrentIndex(0)
-                navigation_bar_v.adjustSize()
+            self.restart_navigation_bar_h.addItem("定时重启")
+            self.restart_navigation_bar_h.addItem("计时重启")
 
-                card.body().addWidget(navigation_bar_v)
+            self.restart_navigation_bar_h.setCurrentIndex(0)
+            self.restart_navigation_bar_h.adjustSize()
 
+            self.navigation_bar_h.body().addWidget(self.restart_navigation_bar_h)
+            self.navigation_bar_h.body().addPlaceholder(12)
+            self.navigation_bar_h.adjustSize()
 
+            group.addWidget(self.navigation_bar_h)
 
         # 添加页脚的空白以增加美观性
         self.titled_widgets_group.addPlaceholder(64)
