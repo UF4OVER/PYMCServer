@@ -43,14 +43,14 @@ class MCSModManagePage(SiPage):
         self.setPadding(64)
         self.setScrollMaximumWidth(1000)
         self.setScrollAlignment(Qt.AlignLeft)
-        self.setTitle("玩家管理")  # 设置标题
+        self.setTitle("MOD管理")  # 设置标题
 
         # 创建控件组
         self.titled_widgets_group = SiTitledWidgetGroup(self)
         self.titled_widgets_group.setSiliconWidgetFlag(Si.EnableAnimationSignals)
 
         with self.titled_widgets_group as group:
-            group.addTitle("在线玩家")
+            group.addTitle("")
 
             player_table = SiOptionCardPlane(self)
             player_table.setTitle("使用管理器的表格")
