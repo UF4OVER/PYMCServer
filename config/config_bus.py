@@ -20,6 +20,6 @@ class SignalBus(QObject):
     serverStopSig = pyqtSignal()  # 服务器停止
 
     reStartServerSig = pyqtSignal()  # 重启服务器
-    addTimePlanetSig = pyqtSignal(dict)  # 添加定时任务
+    addTimePlanetSig = pyqtSignal(list)  # 添加定时任务
 
 
