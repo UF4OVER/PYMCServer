@@ -10,52 +10,51 @@
 #  @Python  :
 #  @Description: 统一配置管理器类，用于读取/写入 ini 配置文件 + 路径常量定义
 # -------------------------------
-
-import configparser
+import sys
 from pathlib import Path
 from typing import Union
+from PyQt5.QtCore import QSettings
 
 
 class SettingsManager:
     def __init__(self, config_path: Path):
-        self.config_path = config_path
-        self.config = configparser.ConfigParser()
-        self.load()
-
-    def load(self):
-        """读取配置文件"""
-        self.config.read(self.config_path, encoding='utf-8')
+        self.config_path = str(config_path.resolve())
+        self.settings = QSettings(self.config_path, QSettings.IniFormat)
 
     def get(self, section: str, option: str, fallback: Union[str, int, bool] = None) -> Union[str, int, bool]:
-        if not self.config.has_section(section):
-            return fallback
-
-        if self.config.has_option(section, option):
-            value = self.config.get(section, option, fallback=str(fallback))
-            if value.lower() in ['true', 'false']:
-                return self.config.getboolean(section, option)
-            try:
-                return self.config.getint(section, option)
-            except ValueError:
-                return value
+        key = f"{section}/{option}"
+        if self.settings.contains(key):
+            value = self.settings.value(key)
+            if isinstance(fallback, bool):
+                return value.lower() == 'true' if isinstance(value, str) else bool(value)
+            if isinstance(fallback, int):
+                try:
+                    return int(value)
+                except ValueError:
+                    return fallback
+            return value
         return fallback
 
     def set(self, section: str, option: str, value: Union[str, int, bool]):
-        if not self.config.has_section(section):
-            self.config.add_section(section)
-        self.config.set(section, option, str(value))
-        self._save()
+        key = f"{section}/{option}"
+        self.settings.setValue(key, value)
+        self.settings.sync()
 
     def _save(self):
-        with open(self.config_path, 'w', encoding='utf-8') as f:
-            self.config.write(f)
+        """保留接口用于兼容"""
+        self.settings.sync()
 
-    # 路径配置（可用于读取资源目录）
     @property
     def base_dir(self) -> Path:
-        return Path(__file__).resolve().parent.parent
+        if getattr(sys, 'frozen', False):
+            # 打包后
+            return Path(sys.executable).resolve().parent
+        else:
+            # 正常运行
+            return Path(__file__).resolve().parent.parent
 
     @property
     def png_dir(self) -> Path:
         return self.base_dir / "assets"
+
 

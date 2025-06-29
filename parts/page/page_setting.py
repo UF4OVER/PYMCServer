@@ -10,8 +10,6 @@
 #  @Python  : 
 # -------------------------------
 
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QBoxLayout, QButtonGroup, QSizePolicy
 from siui.components import SiOptionCardPlane, SiLabel
 from siui.components.button import SiFlatButtonWithIndicator, SiFlatButton
 from siui.components.container import SiDenseContainer, SiTriSectionRowCard
@@ -31,12 +29,8 @@ SiFlatButton 扁平按钮
 - 截至2025年6月28日
 """
 
-from PyQt5.QtCore import QTimer, QDateTime
-import datetime
-
 from PyQt5.QtCore import QTimer, QDateTime, Qt
 from PyQt5.QtWidgets import QBoxLayout, QButtonGroup
-from siui import *
 import datetime
 
 

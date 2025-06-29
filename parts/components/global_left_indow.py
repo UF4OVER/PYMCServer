@@ -1,4 +1,3 @@
-from config import Sbus, Settings ,Logger
 # -*- coding: utf-8 -*-
 # -------------------------------
 #  @Project : MCServer
@@ -12,14 +11,17 @@ from config import Sbus, Settings ,Logger
 # -------------------------------
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QBoxLayout
-from siui.components import SiLabel, SiTitledWidgetGroup, SiCheckBox, SiDenseHContainer
-from siui.components.button import SiRadioButtonR, SiSwitchRefactor
+from siui.components import SiLabel, SiTitledWidgetGroup
+from siui.components.button import SiSwitchRefactor
 from siui.components.combobox import SiComboBox
 from siui.components.container import SiDenseContainer
 from siui.components.slider.slider import SiSliderH
 from siui.core import SiColor
 from siui.core import SiGlobal
 from siui.templates.application.components.layer.global_drawer import SiLayerDrawer
+
+from config import Settings, Logger
+
 
 class LayerLeftGlobalDrawerJVMArgs(SiLayerDrawer):
     def __init__(self, *args, **kwargs):
@@ -41,7 +43,7 @@ class LayerLeftGlobalDrawerJVMArgs(SiLayerDrawer):
             self.gc_selector_label = SiLabel(self)
             self.gc_selector_label.setText("GC 策略")
             self.gc_selector_label.setTextColor(self.getColor(SiColor.TEXT_C))
-            self.gc_selector_label.setHint("选择垃圾回收器类型，影响内存管理和性能表现")
+            self.gc_selector_label.setHint("推荐G1GC,ZGC需要WinServer2019或者Windows1803以上")
 
             self.gc_selector = SiComboBox(self)
             self.gc_selector.resize(256, 32)
@@ -134,6 +136,7 @@ class LayerLeftGlobalDrawerJVMArgs(SiLayerDrawer):
 
                 row.adjustSize()
                 group.addWidget(row)
+                group.update()
                 return switch
 
             self.switch_unlock_experimental = add_switch(
@@ -161,11 +164,7 @@ class LayerLeftGlobalDrawerJVMArgs(SiLayerDrawer):
         self.drawer_page.setAttachment(self.drawer_widget_group)
 
     def generate_launch_command(self):
-        args = []
-
-        # 内存参数
-        args.append(f"-Xms{self.slider_xms.value()}M")
-        args.append(f"-Xmx{self.slider_xmx.value()}M")
+        args = [f"-Xms{self.slider_xms.value()}M", f"-Xmx{self.slider_xmx.value()}M"]
 
         # GC 策略
         gc_map = {
@@ -173,7 +172,7 @@ class LayerLeftGlobalDrawerJVMArgs(SiLayerDrawer):
             "Use ZGC": "-XX:+UseZGC",
             "Use ShenandoahGC": "-XX:+UseShenandoahGC",
         }
-        gc_text = self.gc_selector.currentText()
+        gc_text = self.gc_selector.menu().value()
         if gc_text in gc_map:
             args.append(gc_map[gc_text])
 
@@ -199,11 +198,9 @@ class LayerLeftGlobalDrawerJVMArgs(SiLayerDrawer):
         add_flag(self.switch_disable_adaptive, "UseAdaptiveSizePolicy", is_disable=True)
         add_flag(self.switch_keep_stacktrace, "OmitStackTraceInFastThrow", is_disable=True)
 
+        Logger.debug(f"Generated launch command: {args}")
+
         return " ".join(args)
-
-
-
-
 
     def setOpened(self, state):
         super().setOpened(state)
@@ -226,3 +223,9 @@ class LayerLeftGlobalDrawerJVMArgs(SiLayerDrawer):
     def closeLayer(self):
         super().closeLayer()
         SiGlobal.siui.windows["MAIN_WINDOW"].groups()["MAIN_INTERFACE"].moveTo(0, 0)
+        # 判断self.slider_xms是否存在:
+        if hasattr(self, "slider_xms"):
+            self._save_jvm_args()
+
+    def _save_jvm_args(self):
+            Settings.set("JVM", "JVM_ARGS", self.generate_launch_command())

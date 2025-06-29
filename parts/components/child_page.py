@@ -113,7 +113,6 @@ class TimingReStartChildPage(SiChildPage):
         self.panel().addWidget(self.confirm_button, "right")
         self.panel().addWidget(self.cancel_button, "right")
 
-        # 应用样式表
         SiGlobal.siui.reloadStyleSheetRecursively(self)
 
     def emit_scheduled_time(self):

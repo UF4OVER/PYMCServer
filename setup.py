@@ -1,4 +1,4 @@
-from config import Sbus, Settings ,Logger# -*- coding: utf-8 -*-
+from config import Sbus, Settings, Logger  # -*- coding: utf-8 -*-
 # -------------------------------
 #  @Project : MCServer
 #  @Time    : 2025 - 06-25 19:39
@@ -15,6 +15,7 @@ from cx_Freeze import setup, Executable
 # 设置 GUI 基础
 base = "Win32GUI"
 
+
 def build_exe_cx_freeze():
     build_exe_options = {  # 构建选项
         "packages":  # 包
@@ -25,12 +26,12 @@ def build_exe_cx_freeze():
                 "siui",
                 "parts",
                 "config",
-                "assets",
                 "numpy"
             ],
         "include_files":  # 包含文件
             [
-            ],
+                "assets"
+             ],
         "excludes":  # 排除文件/包
             [
                 "matplotlib",
@@ -49,7 +50,7 @@ def build_exe_cx_freeze():
     }
 
     setup(
-        name='PYMCSERVER',
+        name='PYMCS',
         version="0.0.1",
         url='https://github.com/UF4OVER',
         license='GPLv3',
