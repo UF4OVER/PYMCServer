@@ -3,7 +3,7 @@ name: Build EXE
 on:
   push:
     branches:
-      - new_page  # 根据你的主分支名称调整
+      - new_page
 
 jobs:
   build:
@@ -20,8 +20,7 @@ jobs:
 
       - name: 获取 pip 缓存目录
         id: pip-cache
-        run: |
-          echo "::set-output name=dir::$(pip cache dir)"
+        run: echo "dir=$(pip cache dir)" >> $GITHUB_OUTPUT
 
       - name: 缓存 pip 包
         uses: actions/cache@v3
@@ -33,24 +32,20 @@ jobs:
 
       - name: 安装依赖
         run: |
-          pip install cx_freeze pyqt5 numpy pathlib typing
+          pip install -r requirements.txt
 
-      - name: 下载并安装 siui
+      - name: 安装 SiliconUI
         run: |
           git clone https://github.com/ChinaIceF/PyQt-SiliconUI.git
           cd PyQt-SiliconUI
           python setup.py install
-          cd ..
 
-      - name: 执行构建
-        run: |
-          python setup.py build_exe
+      - name: 构建 EXE
+        run: python setup.py build_exe
 
       - name: 打包构建结果
         run: |
-          cd build
-          zip -r ../build.zip *
-          cd ..
+          powershell Compress-Archive -Path build/* -DestinationPath build.zip
 
       - name: 上传构建产物
         uses: actions/upload-artifact@v3
