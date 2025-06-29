@@ -1,0 +1,6 @@
+cx_Freeze
+pyqt5
+numpy
+pathlib
+typing
+git+https://github.com/ChinaIceF/PyQt-SiliconUI.git
