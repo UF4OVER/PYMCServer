@@ -28,7 +28,7 @@ logger.setLevel(logging.DEBUG)
 
 # 控制台输出
 console_handler = logging.StreamHandler()
-console_handler.setLevel(logging.INFO)
+console_handler.setLevel(logging.DEBUG)
 
 # 文件输出
 file_handler = logging.FileHandler(LOG_PATH, encoding="utf-8")

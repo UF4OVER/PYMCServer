@@ -1,5 +1,5 @@
+from config import Sbus, Settings ,Logger
 import sys
-
 from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import QApplication
 from ui import MySiliconApp

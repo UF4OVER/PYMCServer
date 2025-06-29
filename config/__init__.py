@@ -16,7 +16,8 @@ from .config_ini import SettingsManager
 from .config_log import logger
 
 INI_PATH = Path(__file__).resolve().parent / "config.ini"
-
+if not INI_PATH.exists():
+    INI_PATH.touch()
 
 Settings = SettingsManager(INI_PATH)
 Sbus = SignalBus()

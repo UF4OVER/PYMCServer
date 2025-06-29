@@ -1,3 +1,4 @@
+from config import Sbus, Settings ,Logger
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
 

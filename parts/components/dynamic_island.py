@@ -19,7 +19,8 @@ from siui.core import Si
 from siui.core import SiColor, SiGlobal
 from siui.gui import SiFont
 
-from config import ADMIN_NAME,SERVER_NAME,SOFTWARE_VERSION,SERVER_VERSION
+from config import Sbus, Settings ,Logger
+from config import ADMIN_NAME, SERVER_NAME, SOFTWARE_VERSION, SERVER_VERSION
 
 VERSION = SERVER_NAME
 L_AUTHOR = ADMIN_NAME
@@ -47,7 +48,6 @@ class ScrollingLabel(SiLabel):
         self._timer = QTimer(self)
         self._timer.setInterval(300)  # 设置定时器间隔
         self._timer.timeout.connect(self.updateTextPosition)
-        # self.setColor(self.getColor(SiColor.TEXT_B))
         self._is_scrolling = False
 
     def setText(self, text):
@@ -97,7 +97,6 @@ class ScrollingLabel(SiLabel):
 class DynamicIsland(SiHExpandWidget):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # self.setFixedSize(350, 30)
 
         self.container = DenseVContainerBG(self)
         self.container.setFixedSize(440, 30)
@@ -184,20 +183,6 @@ class DynamicIsland(SiHExpandWidget):
         palette = self.tip.palette()
         palette.setColor(QPalette.WindowText, self._color)
         self.tip.setPalette(palette)
-
-    def enterEvent(self, a0):
-        super().enterEvent(a0)
-        self.tip.setText(L_AUTHOR)
-        self.tip_color_animation.setStartValue(self.tipColor)
-        self.tip_color_animation.setEndValue(QColor(255, 0, 0))  # 鼠标进入时颜色变为红色
-        self.tip_color_animation.start()
-
-    def leaveEvent(self, a0):
-        super().leaveEvent(a0)
-        self.tip.setText(H_AUTHOR)
-        self.tip_color_animation.setStartValue(self.tipColor)
-        self.tip_color_animation.setEndValue(QColor(235, 235, 235))  # 鼠标离开时颜色变为白色
-        self.tip_color_animation.start()
 
     def send_default(self):
 

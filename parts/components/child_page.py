@@ -1,3 +1,4 @@
+from config import Sbus, Settings ,Logger
 # -*- coding: utf-8 -*-
 # -------------------------------
 #  @Project : MCServer
@@ -11,12 +12,11 @@
 # -------------------------------
 import datetime
 
-from siui.components import SiTitledWidgetGroup, SiOptionCardLinear, SiCircularProgressBar, SiPushButton
+from siui.components import SiTitledWidgetGroup, SiOptionCardLinear, SiPushButton
 from siui.components.page.child_page import SiChildPage
-from siui.components.widgets.timedate import SiTimeSpanPicker
 from siui.core import SiGlobal
 
-from config import Sbus, Logger
+from config import Sbus
 from parts.components.retime_date import ReTimeSpanPicker, ReTimePicker
 
 
@@ -49,6 +49,7 @@ class CountReStartChildPage(SiChildPage):
         self.content().setAttachment(self.titled_widget_group)
 
         def bus_emit(type: str, time: datetime.timedelta):
+            Logger.info(f"触发添加定时任务:{type} {time}")
             Sbus.addTimePlanetSig.emit([type, time])
 
         self.add_button = SiPushButton(self)
@@ -64,8 +65,6 @@ class CountReStartChildPage(SiChildPage):
 
         self.panel().addWidget(self.add_button, "right")
         self.panel().addWidget(self.cancel_button, "right")
-
-        # todo 添加时间计划到settingpage的btu_con容器
 
         # load style sheet
         SiGlobal.siui.reloadStyleSheetRecursively(self)
