@@ -10,20 +10,22 @@ from config import Sbus, Settings ,Logger# -*- coding: utf-8 -*-
 #  @Python  : 
 # -------------------------------
 from PyQt5.QtGui import QIcon
+
 from PyQt5.QtWidgets import QDesktopWidget
 from siui.core import SiGlobal
-
 from siui.templates.application.application import SiliconApplication
+
 from parts.components.dynamic_island import DynamicIsland
 from parts.components.global_left_indow import LayerLeftGlobalDrawerJVMArgs
+from parts.page.page_download import MCSDownloadpage
 
 from parts.page.page_home import MCSHomepage
 from parts.page.page_mods import MCSModManagePage
 
-from config import Settings as ST
 from parts.page.page_player import MCSPlayerPage
 from parts.page.page_setting import MCSettingPage
 
+from config import Settings as ST
 
 class MySiliconApp(SiliconApplication):
     def __init__(self, *args, **kwargs):
@@ -49,6 +51,9 @@ class MySiliconApp(SiliconApplication):
         self.layerMain().addPage(MCSPlayerPage(self),
                                  icon=SiGlobal.siui.iconpack.get("ic_fluent_people_edit_filled"),
                                  hint="玩家", side="top")
+        self.layerMain().addPage(MCSDownloadpage(self),
+                                 icon=SiGlobal.siui.iconpack.get("ic_fluent_arrow_download_filled"),
+                                 hint="下载", side="top")
         self.layerMain().addPage(MCSettingPage(self),
                                  icon=SiGlobal.siui.iconpack.get("ic_fluent_settings_filled"),
                                  hint="设置", side="bottom")
