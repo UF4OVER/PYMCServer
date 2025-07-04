@@ -163,7 +163,7 @@ class MCSettingPage(SiPage):
 
         self.titled_widgets_group.adjustSize()
 
-        Logger.debug(f"添加任务控件：{task_widget}")
+        Logger.debug(f"添加任务控件:{task_widget}")
         Logger.debug(f"planet_con 子控件数：{self.planet_con.layout().count()}")
 
     def parse_time_string(self, time_str: str) -> datetime.timedelta | None:

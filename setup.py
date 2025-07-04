@@ -44,7 +44,6 @@ def build_exe_cx_freeze():
                 "email",
                 "cryptography",
                 "pydoc",
-                "numpy"
             ],
         "optimize": 2
     }

@@ -1,4 +1,6 @@
-from config import Sbus, Settings ,Logger
+
+
+from config import Sbus, Settings, Logger
 import sys
 from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import QApplication
@@ -22,6 +24,9 @@ def show_version_message(window):
 
 
 if __name__ == "__main__":
+    import time
+
+    time1 = time.time()
     app = QApplication(sys.argv)
 
     window = MySiliconApp()
@@ -29,5 +34,6 @@ if __name__ == "__main__":
 
     timer = QTimer(window)
     timer.singleShot(500, lambda: show_version_message(window))
-
+    time = time.time() - time1
+    Logger.info(f"Application started in {time:.2f} seconds.")
     sys.exit(app.exec_())

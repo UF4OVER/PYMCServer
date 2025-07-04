@@ -8,7 +8,7 @@ def callback(event_type, *args):
     elif event_type == "progress":
         file, percent = args
         print(f"{file}: {percent:.1f}%")
-    elif event_type == "finish":
+    elif event_type == "finish":]
         file = args[0]
         print(f"完成下载: {file}")
     elif event_type == "error":

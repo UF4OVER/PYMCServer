@@ -17,8 +17,8 @@ from siui.templates.application.application import SiliconApplication
 
 from parts.components.dynamic_island import DynamicIsland
 from parts.components.global_left_indow import LayerLeftGlobalDrawerJVMArgs
-from parts.page.page_download import MCSDownloadpage
 
+from parts.page.page_addserver import MCSAddServerPage
 from parts.page.page_home import MCSHomepage
 from parts.page.page_mods import MCSModManagePage
 
@@ -51,7 +51,7 @@ class MySiliconApp(SiliconApplication):
         self.layerMain().addPage(MCSPlayerPage(self),
                                  icon=SiGlobal.siui.iconpack.get("ic_fluent_people_edit_filled"),
                                  hint="玩家", side="top")
-        self.layerMain().addPage(MCSDownloadpage(self),
+        self.layerMain().addPage(MCSAddServerPage(self),
                                  icon=SiGlobal.siui.iconpack.get("ic_fluent_arrow_download_filled"),
                                  hint="下载", side="top")
         self.layerMain().addPage(MCSettingPage(self),

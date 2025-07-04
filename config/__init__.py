@@ -11,17 +11,17 @@
 # -------------------------------
 from pathlib import Path
 
-from .config_bus import SignalBus
-from .config_ini import SettingsManager
-from .config_log import logger
+from .config_bus import SignalBus as _SignalBus
+from .config_ini import SettingsManager as _SettingsManager
+from .config_log import logger as _logger
 
 INI_PATH = Path(__file__).resolve().parent / "config.ini"
 if not INI_PATH.exists():
     INI_PATH.touch()
 
-Settings = SettingsManager(INI_PATH)
-Sbus = SignalBus()
-Logger = logger
+Settings = _SettingsManager(INI_PATH)
+Sbus = _SignalBus()
+Logger = _logger
 
 
 ADMIN_NAME = Settings.get("name", "admin_name")

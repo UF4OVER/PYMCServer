@@ -1,3 +1,5 @@
+from siui.components.popover import SiPopoverDatePicker, SiPopoverCalenderPicker, SiPopover, SiPopoverStackedWidget
+
 from config import Sbus, Settings ,Logger
 # -*- coding: utf-8 -*-
 # -------------------------------
@@ -38,7 +40,7 @@ class CountReStartChildPage(SiChildPage):
             restart_con = SiOptionCardLinear(self)
             restart_con.setTitle("选择时间", "点击选择时间")
 
-            restart_choose = ReTimeSpanPicker(self)
+            restart_choose = SiPopoverDatePicker(self)
             restart_choose.adjustSize()
 
             restart_con.addWidget(restart_choose)
@@ -56,7 +58,7 @@ class CountReStartChildPage(SiChildPage):
         self.add_button.resize(128, 32)
         self.add_button.attachment().setText("确定添加")
         self.add_button.clicked.connect(self.closeParentLayer)
-        self.add_button.clicked.connect(lambda: bus_emit("count", restart_choose.get_time()))
+        self.add_button.clicked.connect(lambda: bus_emit("count", restart_choose.date()))
 
         self.cancel_button = SiPushButton(self)
         self.cancel_button.resize(128, 32)
@@ -88,7 +90,7 @@ class TimingReStartChildPage(SiChildPage):
             time_selection_card = SiOptionCardLinear(self)
             time_selection_card.setTitle("设置时间", "选择具体的时间点")
 
-            self.time_picker = ReTimePicker(self)  # 假设存在ReTimePicker组件
+            self.time_picker = SiPopover(self)  # 假设存在ReTimePicker组件
             self.time_picker.adjustSize()
 
             time_selection_card.addWidget(self.time_picker)

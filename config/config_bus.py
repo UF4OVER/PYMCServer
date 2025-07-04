@@ -15,6 +15,9 @@ from PyQt5.QtCore import QObject, pyqtSignal
 
 
 class SignalBus(QObject):
+    """
+    全局信号管理，不介入core模块的信号管理
+    """
 
     serverStartSig = pyqtSignal()  # 服务器启动
     serverStopSig = pyqtSignal()  # 服务器停止
@@ -23,5 +26,7 @@ class SignalBus(QObject):
 
     reStartServerSig = pyqtSignal()  # 重启服务器
     addTimePlanetSig = pyqtSignal(list)  # 添加定时任务
+
+
 
 

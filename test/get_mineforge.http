@@ -1,7 +1,0 @@
-### GET request to example server
-#GET https://bmclapi2.bangbang93.com/forge/minecraft  # 获取所有forge支持的 Minecraft 版本
-
-#GET https://bmclapi2.bangbang93.com/forge/minecraft/1.12.2  # 获取 1.12.2 的 forge 版本
-
-GET https://bmclapi2.bangbang93.com/forge/download/1.20.1
-###
