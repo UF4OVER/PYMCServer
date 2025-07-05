@@ -16,6 +16,7 @@ __version__ = "1.0.0"
 import os
 
 from config import Logger, Sbus
+from download import DownloaderThread, DownloadWorker
 import orjson
 import requests
 
@@ -49,6 +50,7 @@ class Downloader:
         """
         self.all_versions = []
         self.version_manifest = None
+        self.download_manager = DownloaderThread()
         self.DATA_DIR = "./data"
         os.makedirs(self.DATA_DIR, exist_ok=True)
         try:
@@ -81,13 +83,13 @@ class Downloader:
             match v["type"]:
                 case "release":
                     releases.append(item)
-                    self.all_versions.append([v["id"],"release"])
+                    self.all_versions.append([v["id"], "release"])
                 case "snapshot":
                     snapshots.append(item)
-                    self.all_versions.append([v["id"],"snapshot"])
+                    self.all_versions.append([v["id"], "snapshot"])
                 case _:
                     experiments.append(item)
-                    self.all_versions.append([v["id"],"experiment"])
+                    self.all_versions.append([v["id"], "experiment"])
 
         with open(os.path.join(self.DATA_DIR, "releases.json"), "wb") as f:
             f.write(orjson.dumps(releases))
@@ -96,24 +98,7 @@ class Downloader:
         with open(os.path.join(self.DATA_DIR, "experiments.json"), "wb") as f:
             f.write(orjson.dumps(experiments))
 
-    def parse_version_json(self, version: str, type: str):
-        """
-        解析版本JSON,获得服务端核心，assetIndex，assets，libraries下载地址
-        """
-        pass
-        # if type == "release":
-            # version_json_url =
-
-        # print(f"正在解析版本 {self.all_versions}")
-        # version_json_url = f"{self.version_manifest["id"]['url']}"
-        # resp = requests.get(version_json_url)
-        # resp.raise_for_status()
-        # version_json = orjson.loads(resp.content)
-        # print(version_json)
-        # with open(os.path.join(self.DATA_DIR, f"{version}.json"), "wb") as f:
-        #     f.write(resp.content)
-        #     Logger.info(f"保存版本 {version}")
-    def search_version(self, version: str, type: str) -> str | None:
+    def search_version(self, version: str, type: str):
         print(f"正在搜索版本 {version}")
         filename = {
             "release": "releases.json",
@@ -126,19 +111,35 @@ class Downloader:
             with open(path, "rb") as f:
                 version_json = orjson.loads(f.read())
         except Exception as e:
-            print(f"加载文件失败: {e}")
-            return None
+            Logger.error(f"读取文件失败{e}")
 
         for v in version_json:
             if v["id"] == version:
-                return v["url"]
+                self.download_version_json(v["url"])
+                Logger.infof(f"发现版本{v['id']}")
 
-        print(f"未找到版本 {version}")
-        return None
+    def download_version_json(self, version_url: str):
+
+        resp = requests.get(version_url)
+        resp.raise_for_status()
+        version_json = orjson.loads(resp.content)
+        with open(os.path.join(self.DATA_DIR, f"{version_json['id']}.json"), "wb") as f:
+            f.write(resp.content)
+        self.parse_version_json(orjson.loads(resp.content))
+
+    def parse_version_json(self, version_url):
+        """
+        解析版本JSON,获得服务端主jar，libraries下载地址
+        """
+        main_server_jar = version_url["downloads"]["server"]["url"]
+        self.download_manager.addTask(DownloadWorker(main_server_jar, os.path.join(self.DATA_DIR, "server.jar")))
+        for lib in version_url["libraries"]:
+            if "downloads" in lib:
+                self.download_manager.addTask(DownloadWorker(lib["downloads"]["artifact"]["url"], os.path.join(self.DATA_DIR, lib["downloads"]["artifact"]["path"])))
+
+
 
 
 if __name__ == "__main__":
     test = Downloader()
-    print(test.search_version("1.20.1","release"))
-
-
+    print(test.search_version("1.20.1", "release"))
