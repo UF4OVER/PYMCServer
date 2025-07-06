@@ -40,7 +40,7 @@ class CountReStartChildPage(SiChildPage):
             restart_con = SiOptionCardLinear(self)
             restart_con.setTitle("选择时间", "点击选择时间")
 
-            restart_choose = SiPopoverDatePicker(self)
+            restart_choose =  ReTimePicker(self)
             restart_choose.adjustSize()
 
             restart_con.addWidget(restart_choose)

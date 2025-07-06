@@ -26,6 +26,8 @@ from parts.page.page_player import MCSPlayerPage
 from parts.page.page_setting import MCSettingPage
 
 from config import Settings as ST
+from test.test_timepicker import example
+
 
 class MySiliconApp(SiliconApplication):
     def __init__(self, *args, **kwargs):
@@ -57,6 +59,9 @@ class MySiliconApp(SiliconApplication):
         self.layerMain().addPage(MCSettingPage(self),
                                  icon=SiGlobal.siui.iconpack.get("ic_fluent_settings_filled"),
                                  hint="设置", side="bottom")
+        self.layerMain().addPage(example(self),
+                                 icon=SiGlobal.siui.iconpack.get("ic_fluent_wrench_filled"),
+                                 hint="测试", side="bottom")
 
         self.layerMain().setPage(0)
 

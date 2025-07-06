@@ -18,7 +18,7 @@ from siui.components.titled_widget_group import SiTitledWidgetGroup
 from siui.core import Si, SiGlobal
 
 from config import Sbus, Logger
-from parts.components.child_page import CountReStartChildPage, TimingReStartChildPage
+from parts.components.retime_date import ReTimePicker, ReTimeSpanPicker
 
 """
 - 控件选择:
@@ -38,6 +38,7 @@ class MCSettingPage(SiPage):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.restart_flag = 0  # 重启标志：0为计时，1为定时
+
         self.setPadding(64)
         self.setScrollMaximumWidth(1000)
         self.setScrollAlignment(Qt.AlignLeft)
@@ -66,32 +67,21 @@ class MCSettingPage(SiPage):
             self.count_restart_btu.setChecked(True)
             self.count_restart_btu.clicked.connect(lambda: update_restart_flag(0))
 
-            add_plane_btu = SiFlatButton(self.navigation_bar_h)
-            add_plane_btu.setSvgIcon(SiGlobal.siui.iconpack.get("ic_fluent_add_circle_filled"))
-            add_plane_btu.setText("添加任务")
-            add_plane_btu.resize(100, 32)
-            add_plane_btu.clicked.connect(
-                lambda:
-                SiGlobal.siui.windows["MAIN_WINDOW"]
-                .layerChildPage()
-                .setChildPage(
-                    CountReStartChildPage(self) if self.restart_flag == 0 else TimingReStartChildPage(self)
-                )
-
-            )
-
             self.btu_con.addWidget(self.setime_restsrt_btu)
             self.btu_con.addWidget(self.count_restart_btu)
-            self.btu_con.addWidget(add_plane_btu)
 
             # 单选组
             btu_con_group = QButtonGroup(self)
             btu_con_group.addButton(self.setime_restsrt_btu)
             btu_con_group.addButton(self.count_restart_btu)
             btu_con_group.setExclusive(True)
+            self.add_plane_btu = SiFlatButton(self)
+            self.add_plane_btu.setText("添加计划")
+            self.add_plane_btu.clicked.connect(self.restart_time_btu)
 
-            self.navigation_bar_h.header().addWidget(add_plane_btu, "right")
+            self.navigation_bar_h.header().addWidget(self.add_plane_btu, "right")
             self.navigation_bar_h.body().addWidget(self.btu_con)
+            # self.navigation_bar_h.body().addWidget(ReTimePicker(self))
             # 任务展示容器
             self.planet_con = SiDenseContainer(self.navigation_bar_h, QBoxLayout.TopToBottom)
 
@@ -104,6 +94,16 @@ class MCSettingPage(SiPage):
         self.titled_widgets_group.addPlaceholder(64)
         # 设置控件组为页面对象
         self.setAttachment(self.titled_widgets_group)
+
+    def restart_time_btu(self):
+        self.retime_pick = None
+        if self.retime_pick:
+            self.retime_pick.deleteLater()
+        if self.restart_flag == 1:
+            ReTimePicker(self)._on_unfold_button_clicked()
+        else:
+            ReTimeSpanPicker(self)._on_unfold_button_clicked()
+
     def addTimedTask(self, task: list):
 
         # todo BUG :所有信号触发，但是task_widget不显示，

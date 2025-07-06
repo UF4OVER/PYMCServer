@@ -21,16 +21,22 @@ class ReTimeSpanPicker(SiTimeSpanPicker):
     """
     def __init__(self, *arg, **kwargs):
         super().__init__(*arg, **kwargs)
-
+        self._on_unfold_button_clicked()
+        self.adjustSize()
+        # self.reloadStyleSheet()
     def get_time(self) -> datetime.timedelta:
         return self.button.attachment().text()
 
-class ReTimePicker(SiTimePicker):
-    """
+    # def reloadStyleSheet(self):
+    #     super().reloadStyleSheet()
 
-    """
+class ReTimePicker(SiTimePicker):
+
     def __init__(self, *arg, **kwargs):
         super().__init__(*arg, **kwargs)
 
     def get_time(self) -> datetime.timedelta:
         return self.button.attachment().text()
+
+    def reloadStyleSheet(self):
+        super().reloadStyleSheet()
